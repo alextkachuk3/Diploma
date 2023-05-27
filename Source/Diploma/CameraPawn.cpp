@@ -33,7 +33,6 @@ void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AddActorWorldOffset(GetCameraMoveDirection());
-
 }
 
 void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
