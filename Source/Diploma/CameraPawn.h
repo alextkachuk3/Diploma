@@ -37,26 +37,25 @@ private:
 	UFUNCTION()
 		FVector GetCameraMoveDirection();
 
-	UPROPERTY()
-		int ScreenSizeX;
-	UPROPERTY()
-		int ScreenSizeY;
-
-
-	UPROPERTY()
-		float ScreenSizeToMarginProportion = 0.025;
-	UPROPERTY()
-		int Margin;
-
 	UPROPERTY(EditAnywhere)
 		float MoveSpeed = 40;
 
-	UPROPERTY()
-		float MousePositionX;
-	UPROPERTY()
-		float MousePositionY;
-	UPROPERTY()
-		float CameraDirectionX;
-	UPROPERTY()
-		float CameraDirectionY;
+	int ScreenSizeX;
+	int ScreenSizeY;
+
+	FVector CurrentCameraLocation;
+	FVector CurrentCameraMoveDirection;
+
+	float ScreenSizeToMarginProportion = 0.025;
+	int Margin;
+
+	float LeftMapBorder = -16000.0;
+	float RightMapBorder = 21500.0;
+	float UpperMapBorder = 12500.0;
+	float BottomMapBorder = -30000.0;
+
+	float MousePositionX;
+	float MousePositionY;
+	float CameraDirectionX;
+	float CameraDirectionY;
 };

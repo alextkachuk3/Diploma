@@ -32,7 +32,20 @@ void ACameraPawn::BeginPlay()
 void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AddActorWorldOffset(GetCameraMoveDirection());
+	//AddActorWorldOffset(GetCameraMoveDirection());
+	CurrentCameraMoveDirection = GetCameraMoveDirection();
+	CurrentCameraLocation = GetActorLocation();
+	double NewXLocation = CurrentCameraLocation.X + CurrentCameraMoveDirection.X;
+	double NewYLocation = CurrentCameraLocation.Y + CurrentCameraMoveDirection.Y;
+	if(UpperMapBorder < NewXLocation || BottomMapBorder > NewXLocation)
+	{
+		CurrentCameraMoveDirection.X = 0;
+	}
+	if (LeftMapBorder > NewYLocation || RightMapBorder < NewYLocation)
+	{
+		CurrentCameraMoveDirection.Y = 0;
+	}
+	AddActorWorldOffset(CurrentCameraMoveDirection);
 }
 
 void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
