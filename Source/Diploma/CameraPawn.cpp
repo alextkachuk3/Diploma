@@ -32,7 +32,6 @@ void ACameraPawn::BeginPlay()
 void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//AddActorWorldOffset(GetCameraMoveDirection());
 	CurrentCameraMoveDirection = GetCameraMoveDirection();
 	CurrentCameraLocation = GetActorLocation();
 	double NewXLocation = CurrentCameraLocation.X + CurrentCameraMoveDirection.X;
