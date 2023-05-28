@@ -1,4 +1,6 @@
 #include "CameraPawn.h"
+#include "RTSController.h"
+#include <Kismet/GameplayStatics.h>
 
 ACameraPawn::ACameraPawn()
 {
@@ -21,7 +23,9 @@ void ACameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//APlayerController* CustomController = UGameplayStatics::GetPlayerController(GetWorld(), AutoPossessPlayer.GetValue());
 	PlayerController = Cast<APlayerController>(GetController());
+	//PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), AutoPossessPlayer.GetValue());
 	PlayerController->GetViewportSize(ScreenSizeX, ScreenSizeY);
 
 	Margin = (ScreenSizeX + ScreenSizeY) * ScreenSizeToMarginProportion;

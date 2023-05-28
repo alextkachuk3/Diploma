@@ -3,5 +3,5 @@
 
 ARTSGameMode::ARTSGameMode()
 {
-	PlayerControllerClass = ARTSController::StaticClass();
+	//PlayerControllerClass = ARTSController::StaticClass();
 }

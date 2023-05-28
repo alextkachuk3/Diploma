@@ -14,15 +14,16 @@ public:
 	ARTSController();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingContext;
+		class UInputMappingContext* InputMappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* SetDestinationClickAction;
+		class UInputAction* LeftMouseClickAction;
+
+	UFUNCTION(BlueprintCallable)
+		void OnInputStarted();
 
 protected:
 	virtual void SetupInputComponent() override;
 
 	virtual void BeginPlay();
-	
-	void OnInputStarted();
 };

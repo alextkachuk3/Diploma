@@ -15,7 +15,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	UStaticMesh* LoadStaticMeshByName(const FString& MeshName);
+	static UStaticMesh* LoadStaticMeshByName(const FString& MeshName);
 
 private:
 	UPROPERTY(EditAnywhere)
