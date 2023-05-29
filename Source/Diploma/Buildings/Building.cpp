@@ -12,6 +12,8 @@ ABuilding::ABuilding()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	StaticMeshComponent->SetStaticMesh(StaticMesh);
 	SetRootComponent(StaticMeshComponent);
+
+	SetActorEnableCollision(false);
 }
 
 void ABuilding::BeginPlay()
