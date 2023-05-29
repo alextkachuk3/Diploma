@@ -8,5 +8,9 @@ UCLASS()
 class DIPLOMA_API ALumberjackHutActor : public ABuilding
 {
 	GENERATED_BODY()
+
+public:
+	ALumberjackHutActor();
+	virtual void Tick(float DeltaTime) override;
 	
 };

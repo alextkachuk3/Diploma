@@ -4,7 +4,7 @@ AMineActor::AMineActor()
 {
 	FString MeshName = TEXT("MineModel");
 	SetStaticMesh(MeshName);
-	SetActorTickInterval(3.0);
+	SetActorTickInterval(30.0);
 }
 
 void AMineActor::Tick(float DeltaTime)

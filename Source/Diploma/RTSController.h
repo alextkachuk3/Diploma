@@ -26,6 +26,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SpawnMine();
 
+	UFUNCTION(BlueprintCallable)
+		void SpawnLumberjackHut();
+
+	UFUNCTION(BlueprintCallable)
+		void SpawnBuilding(const FString& BuildingName);
+
 	UFUNCTION()
 		AActor* SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation);
 

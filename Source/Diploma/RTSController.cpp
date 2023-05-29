@@ -37,13 +37,12 @@ void ARTSController::Tick(float DeltaTime)
 		FVector2D CursorPosition;
 		GetMousePosition(CursorPosition.X, CursorPosition.Y);
 		FVector WorldLocation, WorldDirection;
-
+		UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
 		UWorld* World = GetWorld();
 		FHitResult HitResult;
 		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
 		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-		//ControlledBuilding->SetActorRelativeLocation(HitResult.Location);
-		ControlledBuilding->SetActorLocation(HitResult.Location, true);
+		ControlledBuilding->SetActorLocation(HitResult.Location);
 	}
 }
 
@@ -52,16 +51,11 @@ void ARTSController::BeginPlay()
 	Super::BeginPlay();
 
 	UWorld* World = GetWorld();
-	FString ActorClassName = TEXT("Building");
-	FVector Location(-19787.0, 15018.7, 154.7);
-	FRotator Rotation(0.0f, 0.0f, 0.0f);
-
-	SpawnActorByName(World, ActorClassName, Location, Rotation);
 }
 
 void ARTSController::OnInputStarted()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Click");
+	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Click");
 
 	/*FVector2D CursorPosition;
 	GetMousePosition(CursorPosition.X, CursorPosition.Y);
@@ -78,25 +72,36 @@ void ARTSController::OnInputStarted()
 		SpawnActorByName(World, ActorClassName, HitResult.Location, Rotation);
 	}*/
 
-	SpawnMine();
+	//SpawnMine();
+	BuildingMode = false;
 }
 
 void ARTSController::SpawnMine()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Spawning mine!");
+	SpawnBuilding(TEXT("MineActor"));
+	FVector Scale(0.58f, 0.58f, 0.58f);
+	ControlledBuilding->SetActorScale3D(Scale);
+}
 
+void ARTSController::SpawnLumberjackHut()
+{
+	SpawnBuilding(TEXT("LumberjackHutActor"));
+	FVector Scale(0.5f, 0.5f, 0.5f);
+	ControlledBuilding->SetActorScale3D(Scale);
+}
+
+void ARTSController::SpawnBuilding(const FString& BuildingName)
+{
 	FVector2D CursorPosition;
 	GetMousePosition(CursorPosition.X, CursorPosition.Y);
 	FVector WorldLocation, WorldDirection;
-
 	UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
 	UWorld* World = GetWorld();
-	FString ActorClassName = TEXT("MineActor");
 	FRotator Rotation(0.0f, 0.0f, 0.0f);
 	FHitResult HitResult;
 	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
 	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-	ControlledBuilding = SpawnActorByName(World, ActorClassName, HitResult.Location, Rotation);
+	ControlledBuilding = SpawnActorByName(World, BuildingName, HitResult.Location, Rotation);
 	BuildingMode = true;
 }
 
