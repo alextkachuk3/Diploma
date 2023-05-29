@@ -8,5 +8,9 @@ UCLASS()
 class DIPLOMA_API ASawmillActor : public ABuilding
 {
 	GENERATED_BODY()
+
+public:
+	ASawmillActor();
+	virtual void Tick(float DeltaTime) override;
 	
 };

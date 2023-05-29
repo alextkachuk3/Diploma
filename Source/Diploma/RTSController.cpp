@@ -31,7 +31,6 @@ void ARTSController::SetupInputComponent()
 
 void ARTSController::Tick(float DeltaTime)
 {
-	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Controller tick!");
 	if (BuildingMode)
 	{
 		FVector2D CursorPosition;
@@ -55,24 +54,6 @@ void ARTSController::BeginPlay()
 
 void ARTSController::OnInputStarted()
 {
-	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Click");
-
-	/*FVector2D CursorPosition;
-	GetMousePosition(CursorPosition.X, CursorPosition.Y);
-	FVector WorldLocation, WorldDirection;
-
-	if (UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection))
-	{
-		UWorld* World = GetWorld();
-		FString ActorClassName = TEXT("MineActor");
-		FRotator Rotation(0.0f, 0.0f, 0.0f);
-		FHitResult HitResult;
-		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
-		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-		SpawnActorByName(World, ActorClassName, HitResult.Location, Rotation);
-	}*/
-
-	//SpawnMine();
 	BuildingMode = false;
 }
 
@@ -93,6 +74,11 @@ void ARTSController::SpawnLumberjackHut()
 void ARTSController::SpawnForge()
 {
 	SpawnBuilding(TEXT("ForgeActor"));
+}
+
+void ARTSController::SpawnSawmill()
+{
+	SpawnBuilding(TEXT("SawmillActor"));
 }
 
 void ARTSController::SpawnBuilding(const FString& BuildingName)

@@ -33,6 +33,9 @@ public:
 		void SpawnForge();
 
 	UFUNCTION(BlueprintCallable)
+		void SpawnSawmill();
+
+	UFUNCTION(BlueprintCallable)
 		void SpawnBuilding(const FString& BuildingName);
 
 	UFUNCTION()
