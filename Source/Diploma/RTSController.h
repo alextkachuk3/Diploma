@@ -30,6 +30,9 @@ public:
 		void SpawnLumberjackHut();
 
 	UFUNCTION(BlueprintCallable)
+		void SpawnForge();
+
+	UFUNCTION(BlueprintCallable)
 		void SpawnBuilding(const FString& BuildingName);
 
 	UFUNCTION()

@@ -8,5 +8,9 @@ UCLASS()
 class DIPLOMA_API AForgeActor : public ABuilding
 {
 	GENERATED_BODY()
+
+public:
+	AForgeActor();
+	virtual void Tick(float DeltaTime) override;
 	
 };

@@ -90,6 +90,11 @@ void ARTSController::SpawnLumberjackHut()
 	ControlledBuilding->SetActorScale3D(Scale);
 }
 
+void ARTSController::SpawnForge()
+{
+	SpawnBuilding(TEXT("ForgeActor"));
+}
+
 void ARTSController::SpawnBuilding(const FString& BuildingName)
 {
 	FVector2D CursorPosition;
