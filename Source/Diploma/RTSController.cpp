@@ -11,6 +11,8 @@ ARTSController::ARTSController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
+	ControlledBuilding = nullptr;
+	BuildingMode = false;
 }
 
 void ARTSController::SetupInputComponent()
@@ -27,17 +29,21 @@ void ARTSController::SetupInputComponent()
 	}
 }
 
-void SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation)
+void ARTSController::Tick(float DeltaTime)
 {
-	UClass* ActorClass = FindObject<UClass>(ANY_PACKAGE, *ActorClassName);
+	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Controller tick!");
+	if (BuildingMode)
+	{
+		FVector2D CursorPosition;
+		GetMousePosition(CursorPosition.X, CursorPosition.Y);
+		FVector WorldLocation, WorldDirection;
 
-	if (ActorClass)
-	{
-		AActor* SpawnedActor = World->SpawnActor<AActor>(ActorClass, Location, Rotation);
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failded to find actor: " + ActorClassName));
+		UWorld* World = GetWorld();
+		FHitResult HitResult;
+		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
+		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
+		//ControlledBuilding->SetActorRelativeLocation(HitResult.Location);
+		ControlledBuilding->SetActorLocation(HitResult.Location, true);
 	}
 }
 
@@ -57,36 +63,54 @@ void ARTSController::OnInputStarted()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Click");
 
-	FVector2D CursorPosition;
+	/*FVector2D CursorPosition;
 	GetMousePosition(CursorPosition.X, CursorPosition.Y);
 	FVector WorldLocation, WorldDirection;
 
 	if (UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection))
 	{
 		UWorld* World = GetWorld();
-		FString ActorClassName = TEXT("Building");
-		// WorldLocation.Z = 154;
-		// WorldDirection.Z = 154;
-		//FVector Location(WorldLocation);
+		FString ActorClassName = TEXT("MineActor");
 		FRotator Rotation(0.0f, 0.0f, 0.0f);
-
 		FHitResult HitResult;
-
 		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
-
 		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-
-		/*TArray<AActor*> LandscapeActors;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALandscape::StaticClass(), LandscapeActors);
-
-		ALandscape* Landscape = Cast<ALandscape>(LandscapeActors[0]);
-
-		FVector LocalLocation = Landscape->GetTransform().InverseTransformPosition(FVector(HitResult.Location.X, HitResult.Location.Y, 0.0f));*/
-
-
 		SpawnActorByName(World, ActorClassName, HitResult.Location, Rotation);
+	}*/
 
-		//SpawnActorByName(World, ActorClassName, LocalLocation, Rotation);
+	SpawnMine();
+}
 
+void ARTSController::SpawnMine()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Spawning mine!");
+
+	FVector2D CursorPosition;
+	GetMousePosition(CursorPosition.X, CursorPosition.Y);
+	FVector WorldLocation, WorldDirection;
+
+	UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
+	UWorld* World = GetWorld();
+	FString ActorClassName = TEXT("MineActor");
+	FRotator Rotation(0.0f, 0.0f, 0.0f);
+	FHitResult HitResult;
+	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
+	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
+	ControlledBuilding = SpawnActorByName(World, ActorClassName, HitResult.Location, Rotation);
+	BuildingMode = true;
+}
+
+AActor* ARTSController::SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation)
+{
+	UClass* ActorClass = FindObject<UClass>(ANY_PACKAGE, *ActorClassName);
+
+	if (ActorClass)
+	{
+		return World->SpawnActor<AActor>(ActorClass, Location, Rotation);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failded to find actor: " + ActorClassName));
+		return nullptr;
 	}
 }

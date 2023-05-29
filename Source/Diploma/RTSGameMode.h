@@ -8,6 +8,12 @@ UCLASS()
 class DIPLOMA_API ARTSGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+private:
+	int WoodCount;
+	int BoardsCount;
+	int StoneCount;
+	int IronCount;
+	int SwordCount;
 
 public:
 	ARTSGameMode();	

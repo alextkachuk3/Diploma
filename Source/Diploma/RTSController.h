@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Buildings/Building.h"
 #include "RTSController.generated.h"
 
 
@@ -22,8 +23,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void OnInputStarted();
 
+	UFUNCTION(BlueprintCallable)
+		void SpawnMine();
+
+	UFUNCTION()
+		AActor* SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation);
+
 protected:
 	virtual void SetupInputComponent() override;
 
+	virtual void Tick(float DeltaTime) override;
+
 	virtual void BeginPlay();
+
+private:
+	bool BuildingMode;
+	AActor* ControlledBuilding;
 };

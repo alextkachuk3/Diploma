@@ -5,20 +5,14 @@
 ABuilding::ABuilding()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	FString MeshName = TEXT("ForgeModel");
-	UStaticMesh* StaticMesh = LoadStaticMeshByName(MeshName);
-
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
-	StaticMeshComponent->SetStaticMesh(StaticMesh);
-	SetRootComponent(StaticMeshComponent);
-
+	FString MeshName = TEXT("ForgeModel");	
+	// SetStaticMesh(MeshName);
 	SetActorEnableCollision(false);
 }
 
 void ABuilding::BeginPlay()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Building");
+	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Building");
 	Super::BeginPlay();
 }
 
@@ -44,6 +38,14 @@ UStaticMesh* ABuilding::LoadStaticMeshByName(const FString& MeshName)
 	}
 
 	return nullptr;
+}
+
+void ABuilding::SetStaticMesh(const FString& MeshName)
+{
+	UStaticMesh* StaticMesh = LoadStaticMeshByName(MeshName);
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+	StaticMeshComponent->SetStaticMesh(StaticMesh);
+	SetRootComponent(StaticMeshComponent);
 }
 
 void ABuilding::Tick(float DeltaTime)
