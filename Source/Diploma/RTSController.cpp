@@ -59,29 +59,35 @@ void ARTSController::OnInputStarted()
 
 void ARTSController::SpawnMine()
 {
-	SpawnBuilding(TEXT("MineActor"));
 	FVector Scale(0.58f, 0.58f, 0.58f);
-	ControlledBuilding->SetActorScale3D(Scale);
+	SpawnBuilding(TEXT("MineActor"), Scale);
 }
 
 void ARTSController::SpawnLumberjackHut()
 {
-	SpawnBuilding(TEXT("LumberjackHutActor"));
 	FVector Scale(0.5f, 0.5f, 0.5f);
-	ControlledBuilding->SetActorScale3D(Scale);
+	SpawnBuilding(TEXT("LumberjackHutActor"), Scale);
 }
 
 void ARTSController::SpawnForge()
 {
-	SpawnBuilding(TEXT("ForgeActor"));
+	FVector Scale(1.0f, 1.0f, 1.0f);
+	SpawnBuilding(TEXT("ForgeActor"), Scale);
 }
 
 void ARTSController::SpawnSawmill()
 {
-	SpawnBuilding(TEXT("SawmillActor"));
+	FVector Scale(1.2f, 1.2f, 1.2f);
+	SpawnBuilding(TEXT("SawmillActor"), Scale);
 }
 
-void ARTSController::SpawnBuilding(const FString& BuildingName)
+void ARTSController::SpawnBarrack()
+{
+	FVector Scale(0.57f, 0.57f, 0.57f);
+	SpawnBuilding(TEXT("BarrackActor"), Scale);
+}
+
+void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& Scale)
 {
 	FVector2D CursorPosition;
 	GetMousePosition(CursorPosition.X, CursorPosition.Y);
@@ -93,6 +99,7 @@ void ARTSController::SpawnBuilding(const FString& BuildingName)
 	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
 	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
 	ControlledBuilding = SpawnActorByName(World, BuildingName, HitResult.Location, Rotation);
+	ControlledBuilding->SetActorScale3D(Scale);
 	BuildingMode = true;
 }
 

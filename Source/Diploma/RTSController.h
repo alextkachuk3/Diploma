@@ -36,7 +36,10 @@ public:
 		void SpawnSawmill();
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnBuilding(const FString& BuildingName);
+		void SpawnBarrack();
+
+	UFUNCTION(BlueprintCallable)
+		void SpawnBuilding(const FString& BuildingName, const FVector& Scale);
 
 	UFUNCTION()
 		AActor* SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation);
