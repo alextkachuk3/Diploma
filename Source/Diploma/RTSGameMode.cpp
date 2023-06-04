@@ -3,5 +3,5 @@
 
 ARTSGameMode::ARTSGameMode()
 {
-	//PlayerControllerClass = ARTSController::StaticClass();
+	MapTreesBVHTree = new BVHTree(std::vector<FVector2D>());
 }

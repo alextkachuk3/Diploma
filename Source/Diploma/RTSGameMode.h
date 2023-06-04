@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "BVH/BVHTree.h"
 #include "RTSGameMode.generated.h"
 
 UCLASS()
@@ -14,6 +15,8 @@ private:
 	int StoneCount;
 	int IronCount;
 	int SwordCount;
+
+	BVHTree* MapTreesBVHTree;
 
 public:
 	ARTSGameMode();	
