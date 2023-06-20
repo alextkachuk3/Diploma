@@ -2,13 +2,6 @@
 
 #include "Engine/ObjectLibrary.h"
 
-ABuilding::ABuilding()
-{
-	PrimaryActorTick.bCanEverTick = true;
-	FString MeshName = TEXT("ForgeModel");
-	SetActorEnableCollision(false);
-}
-
 void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
@@ -46,8 +39,28 @@ void ABuilding::SetStaticMesh(const FString& MeshName)
 	SetRootComponent(StaticMeshComponent);
 }
 
+ABuilding::ABuilding()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	FString MeshName = TEXT("ForgeModel");
+	SetActorEnableCollision(false);
+}
+
+ABuilding::ABuilding(UPlayerInfo* OwnerStats)
+{
+	PrimaryActorTick.bCanEverTick = true;
+	FString MeshName = TEXT("ForgeModel");
+	SetActorEnableCollision(false);
+	this->OwnerInfo = OwnerStats;
+}
+
 void ABuilding::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ABuilding::SetPlayerInfo(UPlayerInfo* PlayerInfo)
+{
+	this->OwnerInfo = PlayerInfo;
 }
 

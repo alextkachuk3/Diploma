@@ -52,5 +52,6 @@ std::vector<FVector2D> ARTSGameMode::GetAllTreesLocations()
 
 ARTSGameMode::ARTSGameMode()
 {
-	
+	PlayerOneInfo = NewObject<UPlayerInfo>();
+	PlayerTwoInfo = NewObject<UPlayerInfo>();
 }

@@ -3,9 +3,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "BVH/BVHTree.h"
-#include "PlayerStats.h"
 #include "InstancedFoliageActor.h"
 #include <Kismet/GameplayStatics.h>
+#include "PlayerInfo.h"
 #include "RTSGameMode.generated.h"
 
 UCLASS()
@@ -15,12 +15,12 @@ class DIPLOMA_API ARTSGameMode : public AGameModeBase
 
 public:
 	ARTSGameMode();
-	PlayerStats PlayerOneStats;
-	PlayerStats PlayerTwoStats;
+
+	UPlayerInfo* PlayerOneInfo;
+	UPlayerInfo* PlayerTwoInfo;
+
 	BVHTree* MapTreesBVHTree;
 private:
-	
-
 	void BeginPlay() override;
 
 	std::vector<FVector2D> GetAllTreesLocations();

@@ -11,6 +11,7 @@ class DIPLOMA_API AMineActor : public ABuilding
 
 public:
 	AMineActor();
+	AMineActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 
 private:

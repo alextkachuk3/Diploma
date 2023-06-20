@@ -40,8 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SpawnBarrack();
 
-	UFUNCTION(BlueprintCallable)
-		void SpawnBuilding(const FString& BuildingName, const FVector& Scale);
+	void SpawnBuilding(const FString& BuildingName, const FVector& Scale);
+
+	void SpawnPlayerBuilding(const FString& BuildingName, const FVector& Scale, UPlayerInfo* PlayerInfo);
 
 	UFUNCTION()
 		AActor* SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation);
@@ -55,9 +56,8 @@ protected:
 
 private:
 	bool BuildingMode;
-	AActor* ControlledBuilding;
+	ABuilding* ControlledBuilding;
 	BoundingVolumeAABB ConrolledBuildingAABB;
 	ARTSGameMode* RTSGameMode;
-
 	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
 };

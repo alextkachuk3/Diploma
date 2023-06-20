@@ -1,14 +1,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Buildings/Building.h"
+#include "UObject/NoExportTypes.h"
+#include "PlayerInfo.generated.h"
 
-class DIPLOMA_API PlayerStats
+class ABuilding;
+
+UCLASS()
+class DIPLOMA_API UPlayerInfo : public UObject
 {
-public:
-	PlayerStats();
-	~PlayerStats();
+	GENERATED_BODY()
 
+public:
 	void IncreaseLumberCount(const int& Count);
 	void DecraseLumberCount(const int& Count);
 	int GetLumberCount();
