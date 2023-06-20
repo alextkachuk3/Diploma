@@ -5,14 +5,12 @@
 ABuilding::ABuilding()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	FString MeshName = TEXT("ForgeModel");	
-	// SetStaticMesh(MeshName);
+	FString MeshName = TEXT("ForgeModel");
 	SetActorEnableCollision(false);
 }
 
 void ABuilding::BeginPlay()
 {
-	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, "Building");
 	Super::BeginPlay();
 }
 

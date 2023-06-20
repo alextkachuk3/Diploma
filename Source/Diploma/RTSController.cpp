@@ -4,8 +4,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include <Engine/ObjectLibrary.h>
+#include "EngineUtils.h"
+#include "Engine/StaticMesh.h"
 #include "Landscape.h"
 #include "LandscapeComponent.h"
+#include "RTSGameMode.h"
 
 ARTSController::ARTSController()
 {
@@ -19,6 +22,10 @@ void ARTSController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
+	RTSGameMode = Cast<ARTSGameMode>(GetWorld()->GetAuthGameMode());
+
+	//UE_LOG(LogTemp, Display, TEXT("TEST C:%d"), meow->PlayerOneStats.GetBoardCount());
+
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(InputMappingContext, 0);
@@ -27,6 +34,49 @@ void ARTSController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(LeftMouseClickAction, ETriggerEvent::Triggered, this, &ARTSController::OnInputStarted);
 	}
+
+	/*AInstancedFoliageActor* InstancedFoliageActor = nullptr;
+
+	UWorld* World = GetWorld();
+
+	UClass* ActorClass = AActor::StaticClass();
+	TArray<AActor*> ActorArray;
+	UGameplayStatics::GetAllActorsOfClass(World, ActorClass, ActorArray);
+
+	for (AActor* Actor : ActorArray)
+	{
+		FString ActorName = Actor->GetName();
+		if (ActorName == TEXT("InstancedFoliageActor_0"))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Actor Name: %s"), *Actor->GetName());
+			InstancedFoliageActor = Cast<AInstancedFoliageActor>(Actor);
+			UE_LOG(LogTemp, Warning, TEXT("LOL"));
+
+			if (InstancedFoliageActor)
+			{
+				auto FoliageComponents = InstancedFoliageActor->GetComponentsByClass(UFoliageInstancedStaticMeshComponent::StaticClass());
+				for (auto& Comp : FoliageComponents)
+				{
+					auto FoliageComponent = Cast<UFoliageInstancedStaticMeshComponent>(Comp);
+					if (FoliageComponent != nullptr)
+					{
+						UStaticMesh* Mesh = FoliageComponent->GetStaticMesh();
+						auto InstanceCount = FoliageComponent->GetInstanceCount();
+
+						UE_LOG(LogTemp, Display, TEXT("FoliageComp Mesh:%s Instances:%d"), *Mesh->GetName(), FoliageComponent->GetInstanceCount());
+
+						for (int i = 0; i < InstanceCount; ++i)
+						{
+							FTransform InstanceTransform;
+							FoliageComponent->GetInstanceTransform(i, OUT InstanceTransform, true);
+
+							UE_LOG(LogTemp, Display, TEXT("%s[%d] %s"), *Mesh->GetName(), i, *InstanceTransform.ToString());
+						}
+					}
+				}
+			}
+		}
+	}*/
 }
 
 void ARTSController::Tick(float DeltaTime)
@@ -42,6 +92,7 @@ void ARTSController::Tick(float DeltaTime)
 		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
 		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
 		ControlledBuilding->SetActorLocation(HitResult.Location);
+		ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
 	}
 }
 
@@ -52,9 +103,19 @@ void ARTSController::BeginPlay()
 	UWorld* World = GetWorld();
 }
 
+BoundingVolumeAABB ARTSController::GetActorCornerLocations(AActor* Actor)
+{
+	FBox BB = Actor->GetComponentsBoundingBox(true);
+	return BoundingVolumeAABB(BB.Min.X, BB.Min.Y, BB.Max.X, BB.Max.Y);
+}
+
 void ARTSController::OnInputStarted()
 {
-	BuildingMode = false;
+	UE_LOG(LogTemp, Display, TEXT("TEST C:%d"), RTSGameMode->PlayerOneStats.GetBoardCount());
+	if (!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB))
+	{
+		BuildingMode = false;
+	}
 }
 
 void ARTSController::SpawnMine()
@@ -87,6 +148,8 @@ void ARTSController::SpawnBarrack()
 	SpawnBuilding(TEXT("BarrackActor"), Scale);
 }
 
+
+
 void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& Scale)
 {
 	FVector2D CursorPosition;
@@ -100,6 +163,7 @@ void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& S
 	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
 	ControlledBuilding = SpawnActorByName(World, BuildingName, HitResult.Location, Rotation);
 	ControlledBuilding->SetActorScale3D(Scale);
+	ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
 	BuildingMode = true;
 }
 

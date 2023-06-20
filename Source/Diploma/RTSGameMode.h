@@ -3,21 +3,26 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "BVH/BVHTree.h"
+#include "PlayerStats.h"
+#include "InstancedFoliageActor.h"
+#include <Kismet/GameplayStatics.h>
 #include "RTSGameMode.generated.h"
 
 UCLASS()
 class DIPLOMA_API ARTSGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-private:
-	int WoodCount;
-	int BoardsCount;
-	int StoneCount;
-	int IronCount;
-	int SwordCount;
-
-	BVHTree* MapTreesBVHTree;
 
 public:
-	ARTSGameMode();	
+	ARTSGameMode();
+	PlayerStats PlayerOneStats;
+	PlayerStats PlayerTwoStats;
+	BVHTree* MapTreesBVHTree;
+private:
+	
+
+	void BeginPlay() override;
+
+	std::vector<FVector2D> GetAllTreesLocations();
+	std::vector<FVector2D> TreesLocations;
 };

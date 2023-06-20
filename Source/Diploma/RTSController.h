@@ -2,7 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "InstancedFoliageActor.h"
 #include "Buildings/Building.h"
+#include "RTSGameMode.h"
 #include "RTSController.generated.h"
 
 
@@ -54,4 +56,8 @@ protected:
 private:
 	bool BuildingMode;
 	AActor* ControlledBuilding;
+	BoundingVolumeAABB ConrolledBuildingAABB;
+	ARTSGameMode* RTSGameMode;
+
+	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
 };
