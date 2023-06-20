@@ -11,6 +11,7 @@ class DIPLOMA_API ABarrackActor : public ABuilding
 
 public:
 	ABarrackActor();
+	ABarrackActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
 };

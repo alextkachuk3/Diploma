@@ -4,7 +4,12 @@ ABarrackActor::ABarrackActor()
 {
 	FString MeshName = TEXT("BarrackModel");
 	SetStaticMesh(MeshName);
-	SetActorTickInterval(40.0);
+}
+
+ABarrackActor::ABarrackActor(UPlayerInfo* OwnerStats)
+{
+	ABarrackActor();
+	this->OwnerInfo = OwnerStats;
 }
 
 void ABarrackActor::Tick(float DeltaTime)

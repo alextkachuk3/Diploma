@@ -36,19 +36,19 @@ public:
 		void RightMouseButtonClickAction();
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnMine();
+		void SpawnMine(UPlayerInfo* PlayerInfo);
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnLumberjackHut();
+		void SpawnLumberjackHut(UPlayerInfo* PlayerInfo);
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnForge();
+		void SpawnForge(UPlayerInfo* PlayerInfo);
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnSawmill();
+		void SpawnSawmill(UPlayerInfo* PlayerInfo);
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnBarrack();
+		void SpawnBarrack(UPlayerInfo* PlayerInfo);
 
 	void SpawnBuilding(const FString& BuildingName, const FVector& Scale);
 

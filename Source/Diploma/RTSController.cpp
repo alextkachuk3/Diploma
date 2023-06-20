@@ -129,34 +129,34 @@ void ARTSController::RightMouseButtonClickAction()
 	}
 }
 
-void ARTSController::SpawnMine()
+void ARTSController::SpawnMine(UPlayerInfo* PlayerInfo)
 {
 	FVector Scale(0.58f, 0.58f, 0.58f);
-	SpawnPlayerBuilding(TEXT("MineActor"), Scale, RTSGameMode->PlayerOneInfo);
+	SpawnPlayerBuilding(TEXT("MineActor"), Scale, PlayerInfo);
 }
 
-void ARTSController::SpawnLumberjackHut()
+void ARTSController::SpawnLumberjackHut(UPlayerInfo* PlayerInfo)
 {
 	FVector Scale(0.5f, 0.5f, 0.5f);
-	SpawnPlayerBuilding(TEXT("LumberjackHutActor"), Scale, RTSGameMode->PlayerOneInfo);
+	SpawnPlayerBuilding(TEXT("LumberjackHutActor"), Scale, PlayerInfo);
 }
 
-void ARTSController::SpawnForge()
+void ARTSController::SpawnForge(UPlayerInfo* PlayerInfo)
 {
 	FVector Scale(1.0f, 1.0f, 1.0f);
-	SpawnPlayerBuilding(TEXT("ForgeActor"), Scale, RTSGameMode->PlayerOneInfo);
+	SpawnPlayerBuilding(TEXT("ForgeActor"), Scale, PlayerInfo);
 }
 
-void ARTSController::SpawnSawmill()
+void ARTSController::SpawnSawmill(UPlayerInfo* PlayerInfo)
 {
 	FVector Scale(1.2f, 1.2f, 1.2f);
-	SpawnPlayerBuilding(TEXT("SawmillActor"), Scale, RTSGameMode->PlayerOneInfo);
+	SpawnPlayerBuilding(TEXT("SawmillActor"), Scale, PlayerInfo);
 }
 
-void ARTSController::SpawnBarrack()
+void ARTSController::SpawnBarrack(UPlayerInfo* PlayerInfo)
 {
 	FVector Scale(0.57f, 0.57f, 0.57f);
-	SpawnBuilding(TEXT("BarrackActor"), Scale);
+	SpawnPlayerBuilding(TEXT("BarrackActor"), Scale, PlayerInfo);
 }
 
 void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& Scale)
