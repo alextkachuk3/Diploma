@@ -23,7 +23,7 @@ public:
 		class UInputAction* LeftMouseClickAction;
 
 	UFUNCTION(BlueprintCallable)
-		void OnInputStarted();
+		void LeftMouseButtonClickAction();
 
 	UFUNCTION(BlueprintCallable)
 		void SpawnMine();
@@ -60,4 +60,9 @@ private:
 	BoundingVolumeAABB ConrolledBuildingAABB;
 	ARTSGameMode* RTSGameMode;
 	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
+	bool BuildingInsideBorder(AActor* Actor);
+	const double MinXBorder = -24500.0;
+	const double MinYBorder = -16000.0;
+	const double MaxXBorder = 16700.0;
+	const double MaxYBorder = 23700.0;
 };

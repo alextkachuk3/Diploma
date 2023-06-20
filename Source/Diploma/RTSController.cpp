@@ -29,7 +29,7 @@ void ARTSController::SetupInputComponent()
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
-		EnhancedInputComponent->BindAction(LeftMouseClickAction, ETriggerEvent::Triggered, this, &ARTSController::OnInputStarted);
+		EnhancedInputComponent->BindAction(LeftMouseClickAction, ETriggerEvent::Triggered, this, &ARTSController::LeftMouseButtonClickAction);
 	}
 }
 
@@ -63,9 +63,15 @@ BoundingVolumeAABB ARTSController::GetActorCornerLocations(AActor* Actor)
 	return BoundingVolumeAABB(BB.Min.X, BB.Min.Y, BB.Max.X, BB.Max.Y);
 }
 
-void ARTSController::OnInputStarted()
+bool ARTSController::BuildingInsideBorder(AActor* Actor)
 {
-	if (!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB))
+	FBox BB = Actor->GetComponentsBoundingBox(true);
+	return BB.Min.X > MinXBorder && BB.Min.Y > MinYBorder && BB.Max.X < MaxXBorder && BB.Max.Y < MaxYBorder;
+}
+
+void ARTSController::LeftMouseButtonClickAction()
+{
+	if (!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
 	{
 		BuildingMode = false;
 	}
