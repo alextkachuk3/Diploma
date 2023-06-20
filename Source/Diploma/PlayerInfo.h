@@ -12,6 +12,8 @@ class DIPLOMA_API UPlayerInfo : public UObject
 	GENERATED_BODY()
 
 public:
+	UPlayerInfo();
+
 	void IncreaseLumberCount(const int& Count);
 	void DecreaseLumberCount(const int& Count);
 	int GetLumberCount();
@@ -35,11 +37,16 @@ public:
 	void Reset();
 
 private:
-	int LumberCount = 0;
-	int BoardCount = 0;
-	int StoneCount = 0;
-	int IronCount = 0;
-	int WeaponCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int LumberCount;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int BoardCount;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int StoneCount;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int IronCount;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int WeaponCount;
 
 	std::vector<ABuilding*> PlayerBuildings;
 	std::vector<ABuilding*> PlayerMilitaryBuildings;

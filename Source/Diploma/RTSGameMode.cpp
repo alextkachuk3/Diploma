@@ -5,8 +5,8 @@ void ARTSGameMode::BeginPlay()
 {
 	TreesLocations = GetAllTreesLocations();
 	MapTreesBVHTree = new BVHTree(TreesLocations);
-	PlayerOneInfo->Reset();
-	PlayerTwoInfo->Reset();
+	PlayerOneInfo = NewObject<UPlayerInfo>();
+	PlayerTwoInfo = NewObject<UPlayerInfo>();
 }
 
 std::vector<FVector2D> ARTSGameMode::GetAllTreesLocations()
@@ -54,6 +54,5 @@ std::vector<FVector2D> ARTSGameMode::GetAllTreesLocations()
 
 ARTSGameMode::ARTSGameMode()
 {
-	PlayerOneInfo = NewObject<UPlayerInfo>();
-	PlayerTwoInfo = NewObject<UPlayerInfo>();
+	
 }

@@ -1,5 +1,10 @@
 #include "PlayerInfo.h"
 
+UPlayerInfo::UPlayerInfo()
+{
+	Reset();
+}
+
 void UPlayerInfo::IncreaseLumberCount(const int& Count)
 {
 	LumberCount += Count;

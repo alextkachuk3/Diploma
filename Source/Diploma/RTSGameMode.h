@@ -16,8 +16,10 @@ class DIPLOMA_API ARTSGameMode : public AGameModeBase
 public:
 	ARTSGameMode();
 
-	UPlayerInfo* PlayerOneInfo;
-	UPlayerInfo* PlayerTwoInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UPlayerInfo* PlayerOneInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UPlayerInfo* PlayerTwoInfo;
 
 	BVHTree* MapTreesBVHTree;
 private:
