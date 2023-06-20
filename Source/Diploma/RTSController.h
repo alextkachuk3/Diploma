@@ -21,9 +21,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* LeftMouseClickAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* RightMouseClickAction;
 
 	UFUNCTION(BlueprintCallable)
 		void LeftMouseButtonClickAction();
+	UFUNCTION(BlueprintCallable)
+		void RightMouseButtonClickAction();
 
 	UFUNCTION(BlueprintCallable)
 		void SpawnMine();

@@ -24,7 +24,7 @@ BVHNode* BVHTree::BuildBVHTree(const std::vector<FVector2D>& Objects)
 		int mid = (int)Objects.size() / 2;
 		std::vector<FVector2D> leftObjects(Objects.begin(), Objects.begin() + mid);
 		std::vector<FVector2D> rightObjects(Objects.begin() + mid, Objects.end());
-
+		
 		Node->Left = BuildBVHTree(leftObjects);
 		Node->Right = BuildBVHTree(rightObjects);
 	}

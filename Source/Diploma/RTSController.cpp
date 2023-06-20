@@ -30,6 +30,7 @@ void ARTSController::SetupInputComponent()
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
 		EnhancedInputComponent->BindAction(LeftMouseClickAction, ETriggerEvent::Triggered, this, &ARTSController::LeftMouseButtonClickAction);
+		EnhancedInputComponent->BindAction(RightMouseClickAction, ETriggerEvent::Triggered, this, &ARTSController::RightMouseButtonClickAction);
 	}
 }
 
@@ -73,6 +74,18 @@ void ARTSController::LeftMouseButtonClickAction()
 {
 	if (!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
 	{
+		BuildingMode = false;
+	}
+}
+
+void ARTSController::RightMouseButtonClickAction()
+{
+	if (BuildingMode)
+	{
+		if (GetWorld()->ContainsActor(ControlledBuilding))
+		{
+			GetWorld()->DestroyActor(ControlledBuilding, true, true);
+		}
 		BuildingMode = false;
 	}
 }
