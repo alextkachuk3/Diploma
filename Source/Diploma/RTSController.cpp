@@ -9,6 +9,7 @@
 #include "Landscape.h"
 #include "LandscapeComponent.h"
 #include "RTSGameMode.h"
+#include <Engine/StaticMeshActor.h>
 
 ARTSController::ARTSController()
 {
@@ -37,25 +38,52 @@ void ARTSController::SetupInputComponent()
 void ARTSController::Tick(float DeltaTime)
 {
 	if (BuildingMode)
-	{
-		FVector2D CursorPosition;
-		GetMousePosition(CursorPosition.X, CursorPosition.Y);
-		FVector WorldLocation, WorldDirection;
-		UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
-		UWorld* World = GetWorld();
-		FHitResult HitResult;
-		ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
-		GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-		ControlledBuilding->SetActorLocation(HitResult.Location);
+	{		
+		ControlledBuilding->SetActorLocation(GetLandscapeMouseCursorLocation());
 		ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
 	}
+}
+
+FBox ARTSController::GetStaticMeshBoundingBox(UWorld* World, const FString& StaticMeshName)
+{
+	FBox BoundingBox(ForceInitToZero);
+
+	for (TActorIterator<AStaticMeshActor> ActorItr(World); ActorItr; ++ActorItr)
+	{
+		AStaticMeshActor* StaticMeshActor = *ActorItr;
+		if (StaticMeshActor && StaticMeshActor->GetStaticMeshComponent())
+		{
+			if (StaticMeshActor->GetActorLabel() == StaticMeshName)
+			{
+				BoundingBox = StaticMeshActor->GetComponentsBoundingBox(true);
+				break;
+			}
+		}
+	}
+	return BoundingBox;
+}
+
+FVector ARTSController::GetLandscapeMouseCursorLocation()
+{
+	FVector2D CursorPosition;
+	GetMousePosition(CursorPosition.X, CursorPosition.Y);
+	FVector WorldLocation, WorldDirection;
+	UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
+	FHitResult HitResult;
+	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
+	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
+	return HitResult.Location;
 }
 
 void ARTSController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UWorld* World = GetWorld();
+	PlayerOneTownHall = GetStaticMeshBoundingBox(GetWorld(), TEXT("TawnHallModel1"));
+	PlayerTwoTownHall = GetStaticMeshBoundingBox(GetWorld(), TEXT("TawnHallModel2"));
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, PlayerOneTownHall.ToString());
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, PlayerTwoTownHall.ToString());
 }
 
 BoundingVolumeAABB ARTSController::GetActorCornerLocations(AActor* Actor)
@@ -72,7 +100,7 @@ bool ARTSController::BuildingInsideBorder(AActor* Actor)
 
 void ARTSController::LeftMouseButtonClickAction()
 {
-	if (!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
+	if (BuildingMode && !RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
 	{
 		BuildingMode = false;
 	}
@@ -90,11 +118,14 @@ void ARTSController::RightMouseButtonClickAction()
 	}
 	else
 	{
-		MyWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
-		if (MyWidget)
+		if (PlayerOneTownHall.IsInside(GetLandscapeMouseCursorLocation()))
 		{
-			MyWidget->AddToViewport();
-		}
+			MyWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+			if (MyWidget)
+			{
+				MyWidget->AddToViewport();
+			}
+		}		
 	}
 }
 
@@ -130,16 +161,8 @@ void ARTSController::SpawnBarrack()
 
 void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& Scale)
 {
-	FVector2D CursorPosition;
-	GetMousePosition(CursorPosition.X, CursorPosition.Y);
-	FVector WorldLocation, WorldDirection;
-	UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
-	UWorld* World = GetWorld();
 	FRotator Rotation(0.0f, 0.0f, 0.0f);
-	FHitResult HitResult;
-	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
-	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-	ControlledBuilding = Cast<ABuilding>(SpawnActorByName(World, BuildingName, HitResult.Location, Rotation));
+	ControlledBuilding = Cast<ABuilding>(SpawnActorByName(GetWorld(), BuildingName, GetLandscapeMouseCursorLocation(), Rotation));
 	ControlledBuilding->SetActorScale3D(Scale);
 	ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
 	BuildingMode = true;

@@ -71,8 +71,13 @@ private:
 	ARTSGameMode* RTSGameMode;
 	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
 	bool BuildingInsideBorder(AActor* Actor);
+	FBox GetStaticMeshBoundingBox(UWorld* World, const FString& StaticMeshName);
+	FVector GetLandscapeMouseCursorLocation();
 	const double MinXBorder = -24500.0;
 	const double MinYBorder = -16000.0;
 	const double MaxXBorder = 16700.0;
 	const double MaxYBorder = 23700.0;
+
+	FBox PlayerOneTownHall;
+	FBox PlayerTwoTownHall;
 };
