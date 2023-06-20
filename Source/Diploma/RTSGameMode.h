@@ -24,6 +24,7 @@ public:
 	BVHTree* MapTreesBVHTree;
 private:
 	void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	std::vector<FVector2D> GetAllTreesLocations();
 	std::vector<FVector2D> TreesLocations;

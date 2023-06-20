@@ -2,11 +2,13 @@
 
 BVHNode::BVHNode(const std::vector<FVector2D>& objs) : Objects(objs), Left(nullptr), Right(nullptr)
 {
-    Volume.Update(Objects);
+	Volume.Update(Objects);
 }
 
 BVHNode::~BVHNode()
 {
-    delete Left;
-    delete Right;
+	if (Left != nullptr)
+		delete Left;
+	if (Right != nullptr)
+		delete Right;
 }

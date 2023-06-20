@@ -9,6 +9,11 @@ void ARTSGameMode::BeginPlay()
 	PlayerTwoInfo = NewObject<UPlayerInfo>();
 }
 
+void ARTSGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	delete MapTreesBVHTree;
+}
+
 std::vector<FVector2D> ARTSGameMode::GetAllTreesLocations()
 {
 	std::vector<FVector2D> result;
