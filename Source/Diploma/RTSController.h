@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "InstancedFoliageActor.h"
 #include "Buildings/Building.h"
@@ -23,6 +24,11 @@ public:
 		class UInputAction* LeftMouseClickAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* RightMouseClickAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<class UUserWidget> WidgetClass;
+
+	UUserWidget* MyWidget;
 
 	UFUNCTION(BlueprintCallable)
 		void LeftMouseButtonClickAction();

@@ -88,6 +88,14 @@ void ARTSController::RightMouseButtonClickAction()
 		}
 		BuildingMode = false;
 	}
+	else
+	{
+		MyWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+		if (MyWidget)
+		{
+			MyWidget->AddToViewport();
+		}
+	}
 }
 
 void ARTSController::SpawnMine()
