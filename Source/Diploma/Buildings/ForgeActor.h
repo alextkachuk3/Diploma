@@ -11,6 +11,7 @@ class DIPLOMA_API AForgeActor : public ABuilding
 
 public:
 	AForgeActor();
+	AForgeActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
 };

@@ -5,7 +5,7 @@ void UPlayerInfo::IncreaseLumberCount(const int& Count)
 	LumberCount += Count;
 }
 
-void UPlayerInfo::DecraseLumberCount(const int& Count)
+void UPlayerInfo::DecreaseLumberCount(const int& Count)
 {
 	LumberCount -= Count;
 	if (LumberCount < 0)
@@ -22,7 +22,7 @@ void UPlayerInfo::IncreaseBoardCount(const int& Count)
 	BoardCount += Count;
 }
 
-void UPlayerInfo::DecraseBoardCount(const int& Count)
+void UPlayerInfo::DecreaseBoardCount(const int& Count)
 {
 	BoardCount -= Count;
 	if (BoardCount < 0)
@@ -39,7 +39,7 @@ void UPlayerInfo::IncreaseStoneCount(const int& Count)
 	StoneCount += Count;
 }
 
-void UPlayerInfo::DecraseStoneCount(const int& Count)
+void UPlayerInfo::DecreaseStoneCount(const int& Count)
 {
 	StoneCount -= Count;
 	if (StoneCount < 0)
@@ -56,7 +56,7 @@ void UPlayerInfo::IncreaseIronCount(const int& Count)
 	IronCount += Count;
 }
 
-void UPlayerInfo::DecraseIronCount(const int& Count)
+void UPlayerInfo::DecreaseIronCount(const int& Count)
 {
 	IronCount -= Count;
 	if (IronCount < 0)
@@ -66,4 +66,33 @@ void UPlayerInfo::DecraseIronCount(const int& Count)
 int UPlayerInfo::GetIronCount()
 {
 	return IronCount;
+}
+
+void UPlayerInfo::IncreaseWeaponCount(const int& Count)
+{
+	WeaponCount += Count;
+}
+
+void UPlayerInfo::DecreaseWeaponCount(const int& Count)
+{
+	WeaponCount -= Count;
+	if (WeaponCount < 0)
+		WeaponCount = 0;
+}
+
+int UPlayerInfo::GetWeaponCount()
+{
+	return WeaponCount;
+}
+
+void UPlayerInfo::Reset()
+{
+	LumberCount = 0;
+	BoardCount = 0;
+	StoneCount = 0;
+	IronCount = 0;
+	WeaponCount = 0;
+
+	PlayerBuildings.clear();
+	PlayerMilitaryBuildings.clear();
 }

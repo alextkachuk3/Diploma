@@ -11,6 +11,7 @@ class DIPLOMA_API ALumberjackHutActor : public ABuilding
 
 public:
 	ALumberjackHutActor();
+	ALumberjackHutActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
 };

@@ -20,7 +20,7 @@ void AMineActor::Tick(float DeltaTime)
 	if (OwnerInfo != nullptr)
 	{
 		OwnerInfo->IncreaseIronCount(1);
-		OwnerInfo->IncreaseStoneCount(3);
+		OwnerInfo->IncreaseStoneCount(2);
 		UE_LOG(LogTemp, Display, TEXT("IRON COUNT:%d"), OwnerInfo->GetIronCount());
 		UE_LOG(LogTemp, Display, TEXT("STONE COUNT:%d"), OwnerInfo->GetStoneCount());
 	}

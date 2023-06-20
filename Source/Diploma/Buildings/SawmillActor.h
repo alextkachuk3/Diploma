@@ -11,6 +11,7 @@ class DIPLOMA_API ASawmillActor : public ABuilding
 
 public:
 	ASawmillActor();
+	ASawmillActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
 };

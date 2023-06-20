@@ -23,9 +23,6 @@ void ARTSController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	RTSGameMode = Cast<ARTSGameMode>(GetWorld()->GetAuthGameMode());
-
-	//UE_LOG(LogTemp, Display, TEXT("TEST C:%d"), meow->PlayerOneStats.GetBoardCount());
-
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(InputMappingContext, 0);
@@ -83,19 +80,19 @@ void ARTSController::SpawnMine()
 void ARTSController::SpawnLumberjackHut()
 {
 	FVector Scale(0.5f, 0.5f, 0.5f);
-	SpawnBuilding(TEXT("LumberjackHutActor"), Scale);
+	SpawnPlayerBuilding(TEXT("LumberjackHutActor"), Scale, RTSGameMode->PlayerOneInfo);
 }
 
 void ARTSController::SpawnForge()
 {
 	FVector Scale(1.0f, 1.0f, 1.0f);
-	SpawnBuilding(TEXT("ForgeActor"), Scale);
+	SpawnPlayerBuilding(TEXT("ForgeActor"), Scale, RTSGameMode->PlayerOneInfo);
 }
 
 void ARTSController::SpawnSawmill()
 {
 	FVector Scale(1.2f, 1.2f, 1.2f);
-	SpawnBuilding(TEXT("SawmillActor"), Scale);
+	SpawnPlayerBuilding(TEXT("SawmillActor"), Scale, RTSGameMode->PlayerOneInfo);
 }
 
 void ARTSController::SpawnBarrack()
@@ -123,19 +120,7 @@ void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& S
 
 void ARTSController::SpawnPlayerBuilding(const FString& BuildingName, const FVector& Scale, UPlayerInfo* PlayerInfo)
 {
-	FVector2D CursorPosition;
-	GetMousePosition(CursorPosition.X, CursorPosition.Y);
-	FVector WorldLocation, WorldDirection;
-	UGameplayStatics::DeprojectScreenToWorld(this, CursorPosition, WorldLocation, WorldDirection);
-	UWorld* World = GetWorld();
-	FRotator Rotation(0.0f, 0.0f, 0.0f);
-	FHitResult HitResult;
-	ECollisionChannel TraceChannel = ECollisionChannel::ECC_WorldStatic;
-	GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, WorldLocation + WorldDirection * 50000, TraceChannel);
-	ControlledBuilding = Cast<ABuilding>(SpawnActorByName(World, BuildingName, HitResult.Location, Rotation));
-	ControlledBuilding->SetActorScale3D(Scale);
-	ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
-	BuildingMode = true;
+	SpawnBuilding(BuildingName, Scale);
 	ControlledBuilding->SetPlayerInfo(PlayerInfo);
 }
 
