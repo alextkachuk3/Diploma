@@ -101,3 +101,23 @@ void UPlayerInfo::Reset()
 	PlayerBuildings.clear();
 	PlayerMilitaryBuildings.clear();
 }
+
+void UPlayerInfo::AddBuilding(ABuilding* Building)
+{
+	PlayerBuildings.push_back(Building);
+}
+
+void UPlayerInfo::RemoveBuilding(ABuilding* Building)
+{
+	PlayerBuildings.erase(std::remove(PlayerBuildings.begin(), PlayerBuildings.end(), Building), PlayerBuildings.end());
+}
+
+void UPlayerInfo::AddMilitaryBuilding(ABuilding* Building)
+{
+	PlayerMilitaryBuildings.push_back(Building);
+}
+
+void UPlayerInfo::RemoveMilitaryBuilding(ABuilding* Building)
+{
+	PlayerMilitaryBuildings.erase(std::remove(PlayerBuildings.begin(), PlayerBuildings.end(), Building), PlayerBuildings.end());
+}

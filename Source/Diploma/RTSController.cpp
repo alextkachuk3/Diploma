@@ -10,6 +10,7 @@
 #include "LandscapeComponent.h"
 #include "RTSGameMode.h"
 #include <Engine/StaticMeshActor.h>
+#include "Buildings/BarrackActor.h"
 
 ARTSController::ARTSController()
 {
@@ -102,6 +103,15 @@ void ARTSController::LeftMouseButtonClickAction()
 {
 	if (BuildingMode && !RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
 	{
+		if (Cast<ABarrackActor>(ControlledBuilding))
+		{
+			RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(ControlledBuilding);
+		}
+		else
+		{
+			RTSGameMode->PlayerOneInfo->AddBuilding(ControlledBuilding);
+		}
+		
 		BuildingMode = false;
 	}
 }

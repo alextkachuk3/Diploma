@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include <algorithm>
 #include "PlayerInfo.generated.h"
 
 class ABuilding;
@@ -35,6 +36,12 @@ public:
 	int GetWeaponCount();
 
 	void Reset();
+
+	void AddBuilding(ABuilding* Building);
+	void RemoveBuilding(ABuilding* Building);
+
+	void AddMilitaryBuilding(ABuilding* Building);
+	void RemoveMilitaryBuilding(ABuilding* Building);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
