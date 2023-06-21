@@ -70,6 +70,7 @@ private:
 	BoundingVolumeAABB ConrolledBuildingAABB;
 	ARTSGameMode* RTSGameMode;
 	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
+	bool BuildingCanBePlaced();
 	bool BuildingInsideBorder(AActor* Actor);
 	FBox GetStaticMeshBoundingBox(UWorld* World, const FString& StaticMeshName);
 	FVector GetLandscapeMouseCursorLocation();

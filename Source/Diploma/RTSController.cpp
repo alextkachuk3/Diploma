@@ -39,7 +39,7 @@ void ARTSController::SetupInputComponent()
 void ARTSController::Tick(float DeltaTime)
 {
 	if (BuildingMode)
-	{		
+	{
 		ControlledBuilding->SetActorLocation(GetLandscapeMouseCursorLocation());
 		ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
 	}
@@ -93,6 +93,16 @@ BoundingVolumeAABB ARTSController::GetActorCornerLocations(AActor* Actor)
 	return BoundingVolumeAABB(BB.Min.X, BB.Min.Y, BB.Max.X, BB.Max.Y);
 }
 
+bool ARTSController::BuildingCanBePlaced()
+{
+	return BuildingMode &&
+		!RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) &&
+		BuildingInsideBorder(ControlledBuilding) &&
+		!RTSGameMode->PlayerOneInfo->IntersectOtherBuilding(ControlledBuilding) &&
+		!PlayerOneTownHall.Intersect(ControlledBuilding->GetComponentsBoundingBox(true)) &&
+		!PlayerTwoTownHall.Intersect(ControlledBuilding->GetComponentsBoundingBox(true));
+}
+
 bool ARTSController::BuildingInsideBorder(AActor* Actor)
 {
 	FBox BB = Actor->GetComponentsBoundingBox(true);
@@ -101,17 +111,17 @@ bool ARTSController::BuildingInsideBorder(AActor* Actor)
 
 void ARTSController::LeftMouseButtonClickAction()
 {
-	if (BuildingMode && !RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding) && !RTSGameMode->PlayerOneInfo->IntersectOtherBuilding(ControlledBuilding))
+	if (BuildingCanBePlaced())
 	{
 		if (Cast<ABarrackActor>(ControlledBuilding))
 		{
-			//RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(ControlledBuilding);
+			RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(ControlledBuilding);
 		}
 		else
 		{
 			RTSGameMode->PlayerOneInfo->AddBuilding(ControlledBuilding);
 		}
-		
+
 		BuildingMode = false;
 	}
 }
@@ -135,7 +145,7 @@ void ARTSController::RightMouseButtonClickAction()
 			{
 				MyWidget->AddToViewport();
 			}
-		}		
+		}
 	}
 }
 
