@@ -74,6 +74,11 @@ FVector ARTSController::GetLandscapeMouseCursorLocation()
 	return HitResult.Location;
 }
 
+ABarrackActor* ARTSController::GetClickedBarrack(UPlayerInfo* PlayerInfo)
+{	
+	return Cast<ABarrackActor>(PlayerInfo->ClickedMilitaryBuilding(GetLandscapeMouseCursorLocation()));
+}
+
 void ARTSController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -146,6 +151,19 @@ void ARTSController::RightMouseButtonClickAction()
 			if (MyWidget)
 			{
 				MyWidget->AddToViewport();
+			}
+		}
+		else
+		{
+			LastSelectedOwnBarrackActor = GetClickedBarrack(RTSGameMode->PlayerOneInfo);
+
+			if (LastSelectedOwnBarrackActor)
+			{
+				OwnBarrackWidget = CreateWidget<UUserWidget>(GetWorld(), OwnBarrackWidgetClass);
+				if (OwnBarrackWidget)
+				{
+					OwnBarrackWidget->AddToViewport();
+				}
 			}
 		}
 	}

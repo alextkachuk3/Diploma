@@ -49,6 +49,8 @@ public:
 	bool IntersectOtherBuilding(AActor* Building);
 	bool InsideMilitaryBorder(AActor* Building);
 
+	AActor* ClickedMilitaryBuilding(const FVector& Location);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int LumberCount;

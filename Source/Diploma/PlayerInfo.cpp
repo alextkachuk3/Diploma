@@ -177,3 +177,15 @@ bool UPlayerInfo::InsideMilitaryBorder(AActor* Building)
 	}
 	return false;
 }
+
+AActor* UPlayerInfo::ClickedMilitaryBuilding(const FVector& Location)
+{
+	for (auto Building : PlayerMilitaryBuildings)
+	{
+		if (Building->GetComponentsBoundingBox(true).IsInside(Location))
+		{
+			return Building;
+		}
+	}
+	return nullptr;
+}

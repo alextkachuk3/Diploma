@@ -13,5 +13,16 @@ public:
 	ABarrackActor();
 	ABarrackActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
-	
+
+	UFUNCTION(BlueprintCallable)
+		void IncreaseMilitaryPower();
+
+private:	
+	void DecreaseMilitaryPower(const int& Count);
+	int GetMilitaryPower();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int MilitaryPower;
+
+	const int MaxMilitaryPower = 20;
 };

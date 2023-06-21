@@ -7,6 +7,7 @@
 #include "Buildings/Building.h"
 #include "RTSGameMode.h"
 #include <Engine/StaticMeshActor.h>
+#include "Buildings/BarrackActor.h"
 #include "RTSController.generated.h"
 
 
@@ -30,6 +31,11 @@ public:
 		TSubclassOf<class UUserWidget> WidgetClass;
 
 	UUserWidget* MyWidget;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<class UUserWidget> OwnBarrackWidgetClass;
+
+	UUserWidget* OwnBarrackWidget;
 
 	UFUNCTION(BlueprintCallable)
 		void LeftMouseButtonClickAction();
@@ -75,10 +81,15 @@ private:
 	bool BuildingInsideBorder(AActor* Actor);
 	AStaticMeshActor* GetStaticMesh(UWorld* World, const FString& StaticMeshName);
 	FVector GetLandscapeMouseCursorLocation();
+	ABarrackActor* GetClickedBarrack(UPlayerInfo* PlayerInfo);
 	const double MinXBorder = -24500.0;
 	const double MinYBorder = -16000.0;
 	const double MaxXBorder = 16700.0;
 	const double MaxYBorder = 23700.0;
 	FBox PlayerOneTownHall;
 	FBox PlayerTwoTownHall;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		ABarrackActor* LastSelectedOwnBarrackActor;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		ABarrackActor* LastSelectedEnemyBarrackActor;
 };
