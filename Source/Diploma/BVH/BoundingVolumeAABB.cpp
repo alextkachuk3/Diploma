@@ -10,6 +10,14 @@ BoundingVolumeAABB::BoundingVolumeAABB(const double& MinX, const double& MinY, c
     this->MaxY = MaxY;
 }
 
+BoundingVolumeAABB::BoundingVolumeAABB(FBox Box)
+{
+    this->MinX = Box.Min.X;
+    this->MinY = Box.Min.Y;
+    this->MaxX = Box.Max.X;
+    this->MaxY = Box.Max.Y;
+}
+
 void BoundingVolumeAABB::Update(const std::vector<FVector2D>& Objects)
 {
     if (Objects.empty())

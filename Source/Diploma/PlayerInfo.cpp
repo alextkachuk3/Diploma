@@ -114,7 +114,7 @@ void UPlayerInfo::RemoveBuilding(AActor* Building)
 
 void UPlayerInfo::AddMilitaryBuilding(AActor* Building)
 {
-	PlayerMilitaryBuildings.push_back(Cast<AActor>(Building));
+	PlayerMilitaryBuildings.push_back(Building);
 }
 
 void UPlayerInfo::RemoveMilitaryBuilding(AActor* Building)
@@ -139,5 +139,17 @@ bool UPlayerInfo::IntersectOtherBuilding(AActor* Building)
 		}
 	}
 
+	return false;
+}
+
+bool UPlayerInfo::InsideMilitaryBorder(AActor* Building)
+{
+	for (AActor* OtherBuilding : PlayerMilitaryBuildings)
+	{
+		if (OtherBuilding->GetComponentsBoundingBox(true).ExpandBy(BorderExpand).Intersect(Building->GetComponentsBoundingBox(true)))
+		{
+			return true;
+		}
+	}
 	return false;
 }

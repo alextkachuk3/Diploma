@@ -9,7 +9,6 @@
 #include "Landscape.h"
 #include "LandscapeComponent.h"
 #include "RTSGameMode.h"
-#include <Engine/StaticMeshActor.h>
 #include "Buildings/BarrackActor.h"
 
 ARTSController::ARTSController()
@@ -45,7 +44,7 @@ void ARTSController::Tick(float DeltaTime)
 	}
 }
 
-FBox ARTSController::GetStaticMeshBoundingBox(UWorld* World, const FString& StaticMeshName)
+AStaticMeshActor* ARTSController::GetStaticMesh(UWorld* World, const FString& StaticMeshName)
 {
 	FBox BoundingBox(ForceInitToZero);
 
@@ -56,12 +55,11 @@ FBox ARTSController::GetStaticMeshBoundingBox(UWorld* World, const FString& Stat
 		{
 			if (StaticMeshActor->GetActorLabel() == StaticMeshName)
 			{
-				BoundingBox = StaticMeshActor->GetComponentsBoundingBox(true);
-				break;
+				return StaticMeshActor;
 			}
 		}
 	}
-	return BoundingBox;
+	return nullptr;
 }
 
 FVector ARTSController::GetLandscapeMouseCursorLocation()
@@ -80,11 +78,14 @@ void ARTSController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerOneTownHall = GetStaticMeshBoundingBox(GetWorld(), TEXT("TawnHallModel1"));
-	PlayerTwoTownHall = GetStaticMeshBoundingBox(GetWorld(), TEXT("TawnHallModel2"));
+	auto PlayerOneTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel1"));
+	auto PlayerTwoTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel2"));
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, PlayerOneTownHall.ToString());
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, PlayerTwoTownHall.ToString());
+	RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(PlayerOneTownHallStaticMesh);
+	RTSGameMode->PlayerTwoInfo->AddMilitaryBuilding(PlayerTwoTownHallStaticMesh);
+
+	PlayerOneTownHall = PlayerOneTownHallStaticMesh->GetComponentsBoundingBox(true);
+	PlayerTwoTownHall = PlayerTwoTownHallStaticMesh->GetComponentsBoundingBox(true);
 }
 
 BoundingVolumeAABB ARTSController::GetActorCornerLocations(AActor* Actor)
@@ -100,7 +101,8 @@ bool ARTSController::BuildingCanBePlaced()
 		BuildingInsideBorder(ControlledBuilding) &&
 		!RTSGameMode->PlayerOneInfo->IntersectOtherBuilding(ControlledBuilding) &&
 		!PlayerOneTownHall.Intersect(ControlledBuilding->GetComponentsBoundingBox(true)) &&
-		!PlayerTwoTownHall.Intersect(ControlledBuilding->GetComponentsBoundingBox(true));
+		!PlayerTwoTownHall.Intersect(ControlledBuilding->GetComponentsBoundingBox(true)) &&
+		RTSGameMode->PlayerOneInfo->InsideMilitaryBorder(ControlledBuilding);
 }
 
 bool ARTSController::BuildingInsideBorder(AActor* Actor)

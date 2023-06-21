@@ -6,6 +6,7 @@
 #include "InstancedFoliageActor.h"
 #include "Buildings/Building.h"
 #include "RTSGameMode.h"
+#include <Engine/StaticMeshActor.h>
 #include "RTSController.generated.h"
 
 
@@ -72,13 +73,12 @@ private:
 	BoundingVolumeAABB GetActorCornerLocations(AActor* Actor);
 	bool BuildingCanBePlaced();
 	bool BuildingInsideBorder(AActor* Actor);
-	FBox GetStaticMeshBoundingBox(UWorld* World, const FString& StaticMeshName);
+	AStaticMeshActor* GetStaticMesh(UWorld* World, const FString& StaticMeshName);
 	FVector GetLandscapeMouseCursorLocation();
 	const double MinXBorder = -24500.0;
 	const double MinYBorder = -16000.0;
 	const double MaxXBorder = 16700.0;
 	const double MaxYBorder = 23700.0;
-
 	FBox PlayerOneTownHall;
 	FBox PlayerTwoTownHall;
 };

@@ -44,6 +44,7 @@ public:
 	void RemoveMilitaryBuilding(AActor* Building);
 
 	bool IntersectOtherBuilding(AActor* Building);
+	bool InsideMilitaryBorder(AActor* Building);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -59,4 +60,6 @@ private:
 
 	std::vector<AActor*> PlayerBuildings;
 	std::vector<AActor*> PlayerMilitaryBuildings;
+
+	const FVector BorderExpand = FVector(3500.0, 3500.0, 3500.0);
 };
