@@ -5,8 +5,6 @@
 #include <algorithm>
 #include "PlayerInfo.generated.h"
 
-//class ABuilding;
-
 UCLASS()
 class DIPLOMA_API UPlayerInfo : public UObject
 {
@@ -35,6 +33,11 @@ public:
 	void DecreaseWeaponCount(const int& Count);
 	int GetWeaponCount();
 
+	UFUNCTION(BlueprintCallable)
+		void IncreaseTownhallMilitaryPower();
+	void DecreaseTownhallMilitaryPower(const int& Count);
+	int GetTownhallMilitaryPower();
+
 	void Reset();
 
 	void AddBuilding(AActor* Building);
@@ -58,8 +61,13 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int WeaponCount;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		int TownhallMilitaryPower;
+
 	std::vector<AActor*> PlayerBuildings;
 	std::vector<AActor*> PlayerMilitaryBuildings;
 
+
+	const int MaxTownhallMilitaryPower = 40;
 	const FVector BorderExpand = FVector(3500.0, 3500.0, 3500.0);
 };

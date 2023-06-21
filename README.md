@@ -7,6 +7,7 @@ https://www.flaticon.com/free-icon/wood_928797 <br />
 https://www.flaticon.com/free-icon/wood_1059509 <br />
 https://www.flaticon.com/free-icon/button_5735775?term=exit&page=1&position=5&origin=search&related_id=5735775 <br />
 https://www.flaticon.com/free-icon/brickwall_244105 <br />
+https://www.flaticon.com/free-icon/helmet_7848630 <br />
 
 3D models: <br />
 https://sketchfab.com/3d-models/medieval-forge-f798514d4054444384bc03521f4bd141 <br />

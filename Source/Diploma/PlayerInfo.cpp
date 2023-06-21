@@ -90,6 +90,29 @@ int UPlayerInfo::GetWeaponCount()
 	return WeaponCount;
 }
 
+void UPlayerInfo::IncreaseTownhallMilitaryPower()
+{
+	if (TownhallMilitaryPower < MaxTownhallMilitaryPower && WeaponCount > 0)
+	{
+		WeaponCount--;
+		TownhallMilitaryPower++;
+	}
+}
+
+void UPlayerInfo::DecreaseTownhallMilitaryPower(const int& Count)
+{
+	TownhallMilitaryPower -= Count;
+	if (TownhallMilitaryPower < 0)
+	{
+		TownhallMilitaryPower = 0;
+	}
+}
+
+int UPlayerInfo::GetTownhallMilitaryPower()
+{
+	return TownhallMilitaryPower;
+}
+
 void UPlayerInfo::Reset()
 {
 	LumberCount = 0;
@@ -97,6 +120,7 @@ void UPlayerInfo::Reset()
 	StoneCount = 0;
 	IronCount = 0;
 	WeaponCount = 0;
+	TownhallMilitaryPower = 5;
 
 	PlayerBuildings.clear();
 	PlayerMilitaryBuildings.clear();
