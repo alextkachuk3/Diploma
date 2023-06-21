@@ -47,6 +47,11 @@ public:
 
 	UUserWidget* EnemyTownhallWidget;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<class UUserWidget> VictoryWidgetClass;
+
+	UUserWidget* VictoryWidget;
+
 	UFUNCTION(BlueprintCallable)
 		void LeftMouseButtonClickAction();
 	UFUNCTION(BlueprintCallable)
@@ -78,6 +83,8 @@ public:
 		int GetAttackCount(ABarrackActor* BarrackActor, UPlayerInfo* EnemyInfo);
 	UFUNCTION(BlueprintCallable)
 		int GetTownhallAttackCount(AStaticMeshActor* StaticMeshActor, UPlayerInfo* EnemyInfo);
+	UFUNCTION(BlueprintCallable)
+		void AttackTownhall(AStaticMeshActor* StaticMeshActor, UPlayerInfo* EnemyInfo);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		AStaticMeshActor* PlayerOneTownHallStaticMesh;

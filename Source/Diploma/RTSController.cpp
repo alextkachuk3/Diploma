@@ -279,3 +279,15 @@ int ARTSController::GetTownhallAttackCount(AStaticMeshActor* StaticMeshActor, UP
 	}
 	return result;
 }
+
+void ARTSController::AttackTownhall(AStaticMeshActor* StaticMeshActor, UPlayerInfo* EnemyInfo)
+{
+	if (EnemyInfo->GetTownhallMilitaryPower() < GetTownhallAttackCount(StaticMeshActor, EnemyInfo))
+	{
+		VictoryWidget = CreateWidget<UUserWidget>(GetWorld(), VictoryWidgetClass);
+		if (VictoryWidget)
+		{
+			VictoryWidget->AddToViewport();
+		}
+	}
+}
