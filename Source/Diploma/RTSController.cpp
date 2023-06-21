@@ -37,7 +37,7 @@ void ARTSController::SetupInputComponent()
 
 void ARTSController::Tick(float DeltaTime)
 {
-	if (BuildingMode)
+	if (BuildingMode && ControlledBuilding)
 	{
 		ControlledBuilding->SetActorLocation(GetLandscapeMouseCursorLocation());
 		ConrolledBuildingAABB = GetActorCornerLocations(ControlledBuilding);
@@ -83,8 +83,8 @@ void ARTSController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto PlayerOneTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel1"));
-	auto PlayerTwoTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel2"));
+	PlayerOneTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel1"));
+	PlayerTwoTownHallStaticMesh = GetStaticMesh(GetWorld(), TEXT("TawnHallModel2"));
 
 	RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(PlayerOneTownHallStaticMesh);
 	RTSGameMode->PlayerTwoInfo->AddMilitaryBuilding(PlayerTwoTownHallStaticMesh);
@@ -153,9 +153,18 @@ void ARTSController::RightMouseButtonClickAction()
 				MyWidget->AddToViewport();
 			}
 		}
+		else if (PlayerTwoTownHall.IsInside(GetLandscapeMouseCursorLocation()))
+		{
+			EnemyTownhallWidget = CreateWidget<UUserWidget>(GetWorld(), EnemyTownhallWidgetClass);
+			if (EnemyTownhallWidget)
+			{
+				EnemyTownhallWidget->AddToViewport();
+			}
+		}
 		else
 		{
 			LastSelectedOwnBarrackActor = GetClickedBarrack(RTSGameMode->PlayerOneInfo);
+			LastSelectedEnemyBarrackActor = GetClickedBarrack(RTSGameMode->PlayerTwoInfo);
 
 			if (LastSelectedOwnBarrackActor)
 			{
@@ -163,6 +172,14 @@ void ARTSController::RightMouseButtonClickAction()
 				if (OwnBarrackWidget)
 				{
 					OwnBarrackWidget->AddToViewport();
+				}
+			}
+			else if (LastSelectedEnemyBarrackActor)
+			{
+				EnemyBarrackWidget = CreateWidget<UUserWidget>(GetWorld(), EnemyBarrackWidgetClass);
+				if (EnemyBarrackWidget)
+				{
+					EnemyBarrackWidget->AddToViewport();
 				}
 			}
 		}
@@ -227,4 +244,38 @@ AActor* ARTSController::SpawnActorByName(UWorld* World, const FString& ActorClas
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Failded to find actor: " + ActorClassName));
 		return nullptr;
 	}
+}
+
+int ARTSController::GetAttackCount(ABarrackActor* BarrackActor, UPlayerInfo* EnemyInfo)
+{
+	int result = 0;
+	for (AActor* Actor : EnemyInfo->PlayerMilitaryBuildings)
+	{
+		ABarrackActor* OtherBarrack = Cast<ABarrackActor>(Actor);
+		if (OtherBarrack)
+		{
+			if (OtherBarrack->GetComponentsBoundingBox(true).ExpandBy(FVector(7000.0, 7000.0, 7000.0)).Intersect(BarrackActor->GetComponentsBoundingBox(true)))
+			{
+				result += OtherBarrack->GetMilitaryPower();
+			}
+		}
+	}
+	return result;
+}
+
+int ARTSController::GetTownhallAttackCount(AStaticMeshActor* StaticMeshActor, UPlayerInfo* EnemyInfo)
+{
+	int result = 0;
+	for (AActor* Actor : EnemyInfo->PlayerMilitaryBuildings)
+	{
+		ABarrackActor* OtherBarrack = Cast<ABarrackActor>(Actor);
+		if (OtherBarrack)
+		{
+			if (OtherBarrack->GetComponentsBoundingBox(true).ExpandBy(FVector(7000.0, 7000.0, 7000.0)).Intersect(StaticMeshActor->GetComponentsBoundingBox(true)))
+			{
+				result += OtherBarrack->GetMilitaryPower();
+			}
+		}
+	}
+	return result;
 }

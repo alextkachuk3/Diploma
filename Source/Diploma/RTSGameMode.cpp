@@ -7,6 +7,11 @@ void ARTSGameMode::BeginPlay()
 	MapTreesBVHTree = new BVHTree(TreesLocations);
 	PlayerOneInfo = NewObject<UPlayerInfo>();
 	PlayerTwoInfo = NewObject<UPlayerInfo>();
+	PlayerOneInfo->IncreaseBoardCount(1000);
+	PlayerOneInfo->IncreaseLumberCount(1000);
+	PlayerOneInfo->IncreaseStoneCount(1000);
+	PlayerOneInfo->IncreaseIronCount(1000);
+	PlayerOneInfo->IncreaseWeaponCount(1000);
 }
 
 void ARTSGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)

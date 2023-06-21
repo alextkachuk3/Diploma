@@ -115,10 +115,10 @@ int UPlayerInfo::GetTownhallMilitaryPower()
 
 void UPlayerInfo::Reset()
 {
-	LumberCount = 0;
-	BoardCount = 0;
-	StoneCount = 0;
-	IronCount = 0;
+	LumberCount = 30;
+	BoardCount = 30;
+	StoneCount = 30;
+	IronCount = 30;
 	WeaponCount = 0;
 	TownhallMilitaryPower = 5;
 

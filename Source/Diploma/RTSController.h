@@ -37,6 +37,16 @@ public:
 
 	UUserWidget* OwnBarrackWidget;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<class UUserWidget> EnemyBarrackWidgetClass;
+
+	UUserWidget* EnemyBarrackWidget;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<class UUserWidget> EnemyTownhallWidgetClass;
+
+	UUserWidget* EnemyTownhallWidget;
+
 	UFUNCTION(BlueprintCallable)
 		void LeftMouseButtonClickAction();
 	UFUNCTION(BlueprintCallable)
@@ -63,6 +73,16 @@ public:
 
 	UFUNCTION()
 		AActor* SpawnActorByName(UWorld* World, const FString& ActorClassName, const FVector& Location, const FRotator& Rotation);
+
+	UFUNCTION(BlueprintCallable)
+		int GetAttackCount(ABarrackActor* BarrackActor, UPlayerInfo* EnemyInfo);
+	UFUNCTION(BlueprintCallable)
+		int GetTownhallAttackCount(AStaticMeshActor* StaticMeshActor, UPlayerInfo* EnemyInfo);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		AStaticMeshActor* PlayerOneTownHallStaticMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		AStaticMeshActor* PlayerTwoTownHallStaticMesh;
 
 protected:
 	virtual void SetupInputComponent() override;

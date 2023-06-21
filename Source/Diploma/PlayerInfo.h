@@ -51,6 +51,9 @@ public:
 
 	AActor* ClickedMilitaryBuilding(const FVector& Location);
 
+	std::vector<AActor*> PlayerBuildings;
+	std::vector<AActor*> PlayerMilitaryBuildings;
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int LumberCount;
@@ -65,10 +68,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int TownhallMilitaryPower;
-
-	std::vector<AActor*> PlayerBuildings;
-	std::vector<AActor*> PlayerMilitaryBuildings;
-
 
 	const int MaxTownhallMilitaryPower = 40;
 	const FVector BorderExpand = FVector(3500.0, 3500.0, 3500.0);
