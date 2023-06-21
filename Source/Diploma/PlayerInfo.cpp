@@ -102,22 +102,42 @@ void UPlayerInfo::Reset()
 	PlayerMilitaryBuildings.clear();
 }
 
-void UPlayerInfo::AddBuilding(ABuilding* Building)
+void UPlayerInfo::AddBuilding(AActor* Building)
 {
 	PlayerBuildings.push_back(Building);
 }
 
-void UPlayerInfo::RemoveBuilding(ABuilding* Building)
+void UPlayerInfo::RemoveBuilding(AActor* Building)
 {
 	PlayerBuildings.erase(std::remove(PlayerBuildings.begin(), PlayerBuildings.end(), Building), PlayerBuildings.end());
 }
 
-void UPlayerInfo::AddMilitaryBuilding(ABuilding* Building)
+void UPlayerInfo::AddMilitaryBuilding(AActor* Building)
 {
-	PlayerMilitaryBuildings.push_back(Building);
+	PlayerMilitaryBuildings.push_back(Cast<AActor>(Building));
 }
 
-void UPlayerInfo::RemoveMilitaryBuilding(ABuilding* Building)
+void UPlayerInfo::RemoveMilitaryBuilding(AActor* Building)
 {
 	PlayerMilitaryBuildings.erase(std::remove(PlayerBuildings.begin(), PlayerBuildings.end(), Building), PlayerBuildings.end());
+}
+
+bool UPlayerInfo::IntersectOtherBuilding(AActor* Building)
+{
+	for (AActor* OtherBuilding : PlayerBuildings)
+	{
+		if (OtherBuilding->GetComponentsBoundingBox(true).Intersect(Building->GetComponentsBoundingBox(true)))
+		{
+			return true;
+		}			
+	}
+	for (AActor* OtherBuilding : PlayerMilitaryBuildings)
+	{
+		if (OtherBuilding->GetComponentsBoundingBox(true).Intersect(Building->GetComponentsBoundingBox(true)))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

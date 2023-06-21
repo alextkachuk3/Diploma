@@ -101,11 +101,11 @@ bool ARTSController::BuildingInsideBorder(AActor* Actor)
 
 void ARTSController::LeftMouseButtonClickAction()
 {
-	if (BuildingMode && !RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding))
+	if (BuildingMode && !RTSGameMode->MapTreesBVHTree->Intersects(ConrolledBuildingAABB) && BuildingInsideBorder(ControlledBuilding) && !RTSGameMode->PlayerOneInfo->IntersectOtherBuilding(ControlledBuilding))
 	{
 		if (Cast<ABarrackActor>(ControlledBuilding))
 		{
-			RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(ControlledBuilding);
+			//RTSGameMode->PlayerOneInfo->AddMilitaryBuilding(ControlledBuilding);
 		}
 		else
 		{

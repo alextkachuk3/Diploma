@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "PlayerInfo.generated.h"
 
-class ABuilding;
+//class ABuilding;
 
 UCLASS()
 class DIPLOMA_API UPlayerInfo : public UObject
@@ -37,11 +37,13 @@ public:
 
 	void Reset();
 
-	void AddBuilding(ABuilding* Building);
-	void RemoveBuilding(ABuilding* Building);
+	void AddBuilding(AActor* Building);
+	void RemoveBuilding(AActor* Building);
 
-	void AddMilitaryBuilding(ABuilding* Building);
-	void RemoveMilitaryBuilding(ABuilding* Building);
+	void AddMilitaryBuilding(AActor* Building);
+	void RemoveMilitaryBuilding(AActor* Building);
+
+	bool IntersectOtherBuilding(AActor* Building);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -55,6 +57,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int WeaponCount;
 
-	std::vector<ABuilding*> PlayerBuildings;
-	std::vector<ABuilding*> PlayerMilitaryBuildings;
+	std::vector<AActor*> PlayerBuildings;
+	std::vector<AActor*> PlayerMilitaryBuildings;
 };
