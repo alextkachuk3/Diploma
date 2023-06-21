@@ -14,6 +14,9 @@ public:
 	AMineActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 
+	const static int BoardPrice = 14;
+	const static int StonePrice = 4;
+
 private:
 	
 	

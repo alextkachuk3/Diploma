@@ -10,6 +10,10 @@
 #include "LandscapeComponent.h"
 #include "RTSGameMode.h"
 #include "Buildings/BarrackActor.h"
+#include "Buildings/MineActor.h"
+#include "Buildings/LumberjackHutActor.h"
+#include "Buildings/ForgeActor.h"
+#include "Buildings/SawmillActor.h"
 
 ARTSController::ARTSController()
 {
@@ -75,7 +79,7 @@ FVector ARTSController::GetLandscapeMouseCursorLocation()
 }
 
 ABarrackActor* ARTSController::GetClickedBarrack(UPlayerInfo* PlayerInfo)
-{	
+{
 	return Cast<ABarrackActor>(PlayerInfo->ClickedMilitaryBuilding(GetLandscapeMouseCursorLocation()));
 }
 
@@ -188,32 +192,57 @@ void ARTSController::RightMouseButtonClickAction()
 
 void ARTSController::SpawnMine(UPlayerInfo* PlayerInfo)
 {
-	FVector Scale(0.58f, 0.58f, 0.58f);
-	SpawnPlayerBuilding(TEXT("MineActor"), Scale, PlayerInfo);
+	if (AMineActor::BoardPrice < PlayerInfo->GetBoardCount() && AMineActor::StonePrice < PlayerInfo->GetStoneCount())
+	{
+		PlayerInfo->DecreaseBoardCount(AMineActor::BoardPrice);
+		PlayerInfo->DecreaseStoneCount(AMineActor::StonePrice);
+		FVector Scale(0.58f, 0.58f, 0.58f);
+		SpawnPlayerBuilding(TEXT("MineActor"), Scale, PlayerInfo);
+	}
 }
 
 void ARTSController::SpawnLumberjackHut(UPlayerInfo* PlayerInfo)
 {
-	FVector Scale(0.5f, 0.5f, 0.5f);
-	SpawnPlayerBuilding(TEXT("LumberjackHutActor"), Scale, PlayerInfo);
+	if (ALumberjackHutActor::BoardPrice < PlayerInfo->GetBoardCount() && ALumberjackHutActor::StonePrice < PlayerInfo->GetStoneCount())
+	{
+		PlayerInfo->DecreaseBoardCount(ALumberjackHutActor::BoardPrice);
+		PlayerInfo->DecreaseStoneCount(ALumberjackHutActor::StonePrice);
+		FVector Scale(0.5f, 0.5f, 0.5f);
+		SpawnPlayerBuilding(TEXT("LumberjackHutActor"), Scale, PlayerInfo);
+	}
 }
 
 void ARTSController::SpawnForge(UPlayerInfo* PlayerInfo)
 {
-	FVector Scale(1.0f, 1.0f, 1.0f);
-	SpawnPlayerBuilding(TEXT("ForgeActor"), Scale, PlayerInfo);
+	if (AForgeActor::BoardPrice < PlayerInfo->GetBoardCount() && AForgeActor::StonePrice < PlayerInfo->GetStoneCount())
+	{
+		PlayerInfo->DecreaseBoardCount(AForgeActor::BoardPrice);
+		PlayerInfo->DecreaseStoneCount(AForgeActor::StonePrice);
+		FVector Scale(1.0f, 1.0f, 1.0f);
+		SpawnPlayerBuilding(TEXT("ForgeActor"), Scale, PlayerInfo);
+	}
 }
 
 void ARTSController::SpawnSawmill(UPlayerInfo* PlayerInfo)
 {
-	FVector Scale(1.2f, 1.2f, 1.2f);
-	SpawnPlayerBuilding(TEXT("SawmillActor"), Scale, PlayerInfo);
+	if (ASawmillActor::BoardPrice < PlayerInfo->GetBoardCount() && ASawmillActor::StonePrice < PlayerInfo->GetStoneCount())
+	{
+		PlayerInfo->DecreaseBoardCount(ASawmillActor::BoardPrice);
+		PlayerInfo->DecreaseStoneCount(ASawmillActor::StonePrice);
+		FVector Scale(1.2f, 1.2f, 1.2f);
+		SpawnPlayerBuilding(TEXT("SawmillActor"), Scale, PlayerInfo);
+	}
 }
 
 void ARTSController::SpawnBarrack(UPlayerInfo* PlayerInfo)
 {
-	FVector Scale(0.57f, 0.57f, 0.57f);
-	SpawnPlayerBuilding(TEXT("BarrackActor"), Scale, PlayerInfo);
+	if (ABarrackActor::BoardPrice < PlayerInfo->GetBoardCount() && ABarrackActor::StonePrice < PlayerInfo->GetStoneCount())
+	{
+		PlayerInfo->DecreaseBoardCount(ABarrackActor::BoardPrice);
+		PlayerInfo->DecreaseStoneCount(ABarrackActor::StonePrice);
+		FVector Scale(0.57f, 0.57f, 0.57f);
+		SpawnPlayerBuilding(TEXT("BarrackActor"), Scale, PlayerInfo);
+	}
 }
 
 void ARTSController::SpawnBuilding(const FString& BuildingName, const FVector& Scale)

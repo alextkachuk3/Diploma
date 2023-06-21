@@ -18,6 +18,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void IncreaseMilitaryPower();
 
+	const static int BoardPrice = 4;
+	const static int StonePrice = 8;
+
 private:	
 	void DecreaseMilitaryPower(const int& Count);
 	

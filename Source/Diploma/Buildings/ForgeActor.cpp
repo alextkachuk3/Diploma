@@ -15,7 +15,6 @@ AForgeActor::AForgeActor(UPlayerInfo* OwnerStats)
 
 void AForgeActor::Tick(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Forge tick!"));
 	if (OwnerInfo != nullptr)
 	{
 		if (OwnerInfo->GetIronCount() > 0)

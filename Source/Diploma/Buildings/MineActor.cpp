@@ -16,7 +16,6 @@ AMineActor::AMineActor(UPlayerInfo* OwnerStats)
 
 void AMineActor::Tick(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Mine tick!"));
 	if (OwnerInfo != nullptr)
 	{
 		OwnerInfo->IncreaseIronCount(1);

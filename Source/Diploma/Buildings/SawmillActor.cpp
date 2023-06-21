@@ -15,7 +15,6 @@ ASawmillActor::ASawmillActor(UPlayerInfo* OwnerStats)
 
 void ASawmillActor::Tick(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Sawmill hut tick!"));
 	if (OwnerInfo != nullptr)
 	{
 		if (OwnerInfo->GetLumberCount() > 0)

@@ -14,4 +14,6 @@ public:
 	ALumberjackHutActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
+	const static int BoardPrice = 5;
+	const static int StonePrice = 1;
 };

@@ -15,6 +15,7 @@ public:
 	ABuilding(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	void SetPlayerInfo(UPlayerInfo* PlayerInfo);
+		
 
 protected:
 	virtual void BeginPlay() override;

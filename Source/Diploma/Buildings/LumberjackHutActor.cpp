@@ -15,7 +15,6 @@ ALumberjackHutActor::ALumberjackHutActor(UPlayerInfo* OwnerStats)
 
 void ALumberjackHutActor::Tick(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Lumberjack hut tick!"));
 	if (OwnerInfo != nullptr)
 	{
 		OwnerInfo->IncreaseLumberCount(1);

@@ -13,5 +13,8 @@ public:
 	AForgeActor();
 	AForgeActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
+
+	const static int BoardPrice = 12;
+	const static int StonePrice = 8;
 	
 };

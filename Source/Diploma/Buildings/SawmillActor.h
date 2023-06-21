@@ -14,4 +14,6 @@ public:
 	ASawmillActor(UPlayerInfo* OwnerStats);
 	virtual void Tick(float DeltaTime) override;
 	
+	const static int BoardPrice = 4;
+	const static int StonePrice = 2;
 };
